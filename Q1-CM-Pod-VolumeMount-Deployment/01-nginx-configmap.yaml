@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: nginx-static
+data:
+  default.conf: |
+    server {
+      listen              443 ssl;
+      server_name         web.k8s.local;
+
+      # Initially allow TLSv1.2 and TLSv1.3; edit this to remove TLSv1.2
+      ssl_protocols       TLSv1.2 TLSv1.3;
+      ssl_ciphers         HIGH:!aNULL:!MD5;
+
+      ssl_certificate     /etc/nginx/tls/tls.crt;
+      ssl_certificate_key /etc/nginx/tls/tls.key;
+
+      location / {
+        return 200 "Hello from nginx-static over HTTPS!\n";
+      }
+    }
