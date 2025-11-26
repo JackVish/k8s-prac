@@ -47,7 +47,9 @@ kubectl -n nginx-static rollout restart deploy/nginx-static
 
 Finally, verify that TLSv1.2 is rejected and TLSv1.3 succeeds.
 
-NOTE: Below are openssl command to create cert and key
+NOTE: Below are openssl command to create cert and key and kubectl commands to create a secret
 ```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048   -keyout tls.key -out tls.crt   -subj "/CN=web.k8s.local"
+
+kubectl create secret tls nginx-tls --namespace nginx-static --cert=tls.crt --key=tls.key
 ```
