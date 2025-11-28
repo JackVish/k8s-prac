@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: relative-fawn
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      # Shared resources across the pod. We keep the init container and main containers.
+      initContainers:
+        - name: init-mysql
+          image: busybox:stable
+          command: ['sh', '-c', 'echo initializing database && sleep 5']
+          resources:
+            requests:
+              # Divided node CPU (4 cores) minus 10% overhead across 3 Pods → 1200m per container
+              cpu: "1200m"
+              # Divided node memory (8 Gi) minus 10% overhead across 3 Pods → ~2458 Mi per container
+              memory: "2458Mi"
+      containers:
+        - name: wordpress
+          image: wordpress:php8.2-apache
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: "mariadb"
+            - name: WORDPRESS_DB_USER
+              value: "user"
+            - name: WORDPRESS_DB_PASSWORD
+              value: "password"
+            - name: WORDPRESS_DB_NAME
+              value: "wordpress"
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "1200m"
+              memory: "2458Mi"
+        - name: mariadb
+          image: mariadb:10.6
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "password"
+            - name: MYSQL_DATABASE
+              value: "wordpress"
+            - name: MYSQL_USER
+              value: "user"
+            - name: MYSQL_PASSWORD
+              value: "password"
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              cpu: "1200m"
+              memory: "2458Mi"
