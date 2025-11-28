@@ -1,0 +1,39 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/volumes/-",
+    "value": {
+      "name": "log-volume",
+      "emptyDir": {}
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/volumeMounts",
+    "value": [
+      {
+        "name": "log-volume",
+        "mountPath": "/var/log"
+      }
+    ]
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/-",
+    "value": {
+      "name": "sidecar",
+      "image": "busybox:stable",
+      "command": [
+        "/bin/sh",
+        "-c",
+        "tail -n+1 -f /var/log/synergy-deployment.log"
+      ],
+      "volumeMounts": [
+        {
+          "name": "log-volume",
+          "mountPath": "/var/log"
+        }
+      ]
+    }
+  }
+]

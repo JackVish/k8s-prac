@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synergy-deployment
+  namespace: synergy-lab
+  labels:
+    app: synergy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synergy
+  template:
+    metadata:
+      labels:
+        app: synergy
+    spec:
+      containers:
+        - name: synergy-app
+          image: busybox:stable
+          # The main application writes its log to a file in /var/log
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /var/log
+              # touch ensures the log file exists
+              touch /var/log/synergy-deployment.log
+              # Write a timestamped message to the log file every 5 seconds
+              while true; do
+                echo "$(date) : hello from synergy-app" >> /var/log/synergy-deployment.log
+                sleep 5
+              done
