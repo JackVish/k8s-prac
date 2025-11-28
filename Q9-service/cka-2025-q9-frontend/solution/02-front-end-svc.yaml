@@ -1,0 +1,21 @@
+# Service exposing the front-end Deployment on a NodePort
+#
+# This Service selects pods with the label `app=front-end` and
+# exposes the container port 80/TCP via an externally accessible
+# NodePort.  A specific NodePort (30080) is chosen within the
+# default range (30000‑32767) to avoid collisions【317790593809807†L1302-L1327】.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end-svc
+  namespace: sp-culator
+spec:
+  type: NodePort
+  selector:
+    app: front-end
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080

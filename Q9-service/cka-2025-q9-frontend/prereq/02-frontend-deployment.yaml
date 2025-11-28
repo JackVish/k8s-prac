@@ -1,0 +1,26 @@
+# Front-end Deployment for the CKA 2025 Q‑09 lab
+#
+# This deployment deliberately omits the `containerPort` on the nginx
+# container so that you can practice patching the deployment to expose
+# the port.  The solution directory contains a JSON patch to add
+# port 80/TCP to the container specification.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  namespace: sp-culator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        # Intentionally no 'ports' field; the solution will patch this.

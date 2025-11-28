@@ -1,0 +1,16 @@
+# StorageClass definition for the CKA 2025 Q‑10 lab
+#
+# This class uses the existing provisioner rancher.io/local-path and
+# sets `volumeBindingMode` to `WaitForFirstConsumer`.  It is annotated
+# as the default storage class for the cluster.  To complete the
+# lab, you will also need to remove the default annotation from any
+# previously default StorageClass.
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: low-latency
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer

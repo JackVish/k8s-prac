@@ -1,0 +1,13 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/ports",
+    "value": [
+      {
+        "containerPort": 80,
+        "protocol": "TCP",
+        "name": "http"
+      }
+    ]
+  }
+]
