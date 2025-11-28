@@ -1,0 +1,16 @@
+# Values file for installing the Argo CD Helm chart without CRDs.
+#
+# The CKA exam pre‑installs the Argo CD CRDs in the cluster.  If you leave
+# CRD installation enabled then Helm will attempt to re‑create those CRDs
+# and fail.  The settings below ensure the CRDs are not installed or
+# included in the helm template output.
+
+# Install CRDs is an option retained for Helm v2 compatibility.  It should
+# be set to false when using Helm v3 and when CRDs are managed separately.
+installCRDs: false
+
+# In newer chart versions the CRD installation is configured under the
+# `crds` section.  Setting this value to false ensures no CRDs are
+# installed or templated.
+crds:
+  install: false
