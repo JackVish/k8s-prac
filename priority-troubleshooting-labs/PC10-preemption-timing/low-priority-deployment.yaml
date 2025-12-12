@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timing-low
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: timing-low
+  template:
+    metadata:
+      labels:
+        app: timing-low
+    spec:
+      terminationGracePeriodSeconds: 30
+      priorityClassName: low-priority-lab
+      containers:
+      - name: busybox
+        image: busybox:1.36
+        command: ["sh", "-c", "sleep 3600"]
+        resources:
+          requests:
+            # Each pod requests 600m CPU.  Two replicas (1200m) saturate a typical 2‑CPU node.
+            cpu: "600m"
+            memory: "128Mi"

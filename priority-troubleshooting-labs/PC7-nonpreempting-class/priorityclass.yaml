@@ -1,0 +1,15 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority-lab
+value: 1000000
+globalDefault: false
+description: "Regular high priority class for PC7"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: low-priority-lab
+value: 100
+globalDefault: false
+description: "Low priority class for PC7"

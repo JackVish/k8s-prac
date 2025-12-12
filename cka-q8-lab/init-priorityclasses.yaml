@@ -1,0 +1,23 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: user-low
+value: 500
+globalDefault: false
+description: "Low priority user workload"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: user-medium
+value: 1000
+globalDefault: false
+description: "Medium priority user workload"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: critical-user
+value: 2000
+globalDefault: false
+description: "Critical user workload"

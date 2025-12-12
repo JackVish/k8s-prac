@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nonpreempting-low
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nonpreempting-low
+  template:
+    metadata:
+      labels:
+        app: nonpreempting-low
+    spec:
+      priorityClassName: low-priority-lab
+      containers:
+      - name: busybox
+        image: busybox:1.36
+        command: ["sh", "-c", "sleep 3600"]
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "64Mi"

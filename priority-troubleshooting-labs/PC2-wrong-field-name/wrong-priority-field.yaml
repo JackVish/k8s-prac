@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wrong-field
+spec:
+  # WRONG: the field name should be 'priorityClassName'
+  priorityClass: high-priority-lab
+  containers:
+  - name: nginx
+    image: nginx:1.25
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"

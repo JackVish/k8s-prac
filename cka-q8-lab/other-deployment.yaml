@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-service
+  namespace: priority
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: low-service
+  template:
+    metadata:
+      labels:
+        app: low-service
+    spec:
+      priorityClassName: user-low
+      containers:
+      - name: busybox
+        image: busybox:1.36
+        command: ["sh", "-c", "sleep 3600"]
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "64Mi"
